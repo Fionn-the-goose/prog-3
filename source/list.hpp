@@ -127,9 +127,10 @@ class List {
     using iterator        = ListIterator<T>;
 
     // not fully implemented yet
-    // TODO: do not forget about the initialiser list! (Aufgabe 3.2)
-    /* ... */
-    List() {}
+    List() :
+        size_{0},
+        first_{ nullptr },
+        last_{ nullptr } {};
 
     // test and implement:
     //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
@@ -164,7 +165,6 @@ class List {
 
     /* ... */
     ~List() {
-      //TODO: Implement via clear-Method (Aufgabe 3.4)
     } //can not really be tested
 
     /* ... */
@@ -183,9 +183,6 @@ class List {
 
     /* ... */ 
     // test and implement:
-    //TODO: clear()-Method (Aufgabe 3.4)
-
-
     /* ... */
     //TODO: member function insert (Aufgabe 3.13)
 
@@ -197,23 +194,68 @@ class List {
     //TODO: member function reverse (Aufgabe 3.7 - Teil 1)
 
 
-    /* ... */
+    /*  */
     void push_front(T const& element) {
-      // TODO: push_front-method (Aufgabe 3.3)
+        ListNode<T>* node = new ListNode<T>;
+        node->value = element;
+        node->prev = nullptr;
+        if (empty()) {
+            node->next = nullptr;
+            first_ = node;
+            last_ = node;
+        }
+        else if (first_ == last_){
+            node->next = last_;
+            first_ = node;
+            last_->prev = first_;
+        }
+        else {
+            node->next = first_;
+            first_->prev = node;
+            first_ = node;
+        }
+        size_++;
     }
 
     /* ... */
     void push_back(T const& element) {
-      // TODO: push_back-method (Aufgabe 3.3)
+        ListNode<T>* node = new ListNode<T>;
+        node->value = element;
+        node->next = nullptr;
+        if (empty()) {
+            node->prev = nullptr;
+            first_ = node;
+            last_ = node;
+        }
+        else if (first_ == last_) {
+            node->prev = first_;
+            last_ = node;
+            first_->next = last_;
+        }
+        else {
+            node->prev = last_;
+            last_->next = node;
+            last_ = node;
+        }
+        size_++;
     }
 
     /* ... */
     void pop_front() {
       if(empty()) {
-        throw "List is empty";
+          throw "List is empty";
       }
-
-      // TODO: remainder of pop_front-method (Aufgabe 3.3)
+      else if(first_ == last_) {
+          delete first_;
+          first_ = nullptr;
+          last_ = nullptr;
+      }
+      else {
+          first_ = first_->next;
+          delete first_->prev;
+          first_->prev = nullptr;
+      }
+      size_--;
     }
 
     /* ... */
@@ -221,8 +263,17 @@ class List {
       if(empty()) {
         throw "List is empty";
       }
-
-      // TODO: remainder of pop_back-method (Aufgabe 3.3)
+      else if (first_ == last_) {
+          delete last_;
+          last_ = nullptr;
+          first_ = nullptr;
+      }
+      else {
+          last_ = last_->prev;
+          delete last_->next;
+          last_->next = nullptr;
+      }
+      size_--;
     }
 
     /* ... */
@@ -230,8 +281,9 @@ class List {
       if(empty()) {
         throw "List is empty";
       }
-
-      // TODO: remainder of front-method (Aufgabe 3.3)
+      else {
+          return first_->value;
+      }
     }
 
     /* ... */
@@ -239,22 +291,23 @@ class List {
       if(empty()) {
         throw "List is empty";
       }
-
-      // TODO: remainder of back-method (Aufgabe 3.3)
+      else {
+          return last_->value;
+      }
     }
 
     /* ... */
     bool empty() const {
-
-      // TODO: empty-method (Aufgabe 3.2)
-      return false;
+        if (first_ == nullptr && last_ == nullptr) {
+            return true;
+        }
+        return false;
     };
 
 
     /* ... */
     std::size_t size() const{
-      // TODO: size-method (Aufgabe 3.2)      
-      return 27;
+        return size_;
   };
 
 
