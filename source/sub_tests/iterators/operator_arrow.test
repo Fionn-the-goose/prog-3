@@ -1,0 +1,40 @@
+TEST_CASE("dereferencing an iterator should return the value contained in the node the iterator is refering to", "[iterator usage]") {
+  List<int> list{};
+
+  SECTION("an empty list can only have an iterator pointing to a nullptr, so dereferencing throws") {
+    REQUIRE(true == list.empty());
+
+    auto begin_it = list.begin();
+    REQUIRE_THROWS(*begin_it);
+
+  }
+
+  list.push_front(9123);
+  SECTION("pushed element should be readable and writeable via dereferencing the iterator") {
+    REQUIRE(9123 == list.front());
+    REQUIRE(1 == list.size());
+
+    auto begin_it = list.begin();
+    REQUIRE(*begin_it == list.front());   
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+
+    *begin_it = 9;
+    REQUIRE(9 == list.front());
+    REQUIRE(*begin_it == list.front());  
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+  }
+
+  list.push_front(1000);
+  SECTION("pushed element should be readable and writeable and should not change size of list") {
+    REQUIRE(1000 == list.front());
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+
+    list.front() = 1;
+    REQUIRE(1 == list.front());
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+  }
+}

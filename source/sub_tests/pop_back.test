@@ -1,0 +1,89 @@
+TEST_CASE("remove elements with pop_back", "[list_removal]") {
+  List<int> list{};
+
+  // actual tests
+  // ------------
+  list.push_back( 9);
+  list.push_back( 1);
+  list.push_back(-7);
+
+  list.pop_back();
+  {
+    // front to back list content should be: 1 9
+    auto first_pointer = get_first_pointer(list);
+    auto last_pointer  = get_last_pointer(list); 
+   
+    SECTION("first_ and last_ should not be nullptrs anymore") {
+      REQUIRE(nullptr != first_pointer);
+      REQUIRE(nullptr != last_pointer);
+    }
+
+    SECTION("the links between nodes are set correctly") {
+      REQUIRE(nullptr == first_pointer->prev);
+      REQUIRE(nullptr == last_pointer->next);
+      REQUIRE(first_pointer->next == last_pointer);
+      REQUIRE(first_pointer       == last_pointer->prev);
+    }
+    
+    SECTION("front to back list content should be: 1 9") {
+      REQUIRE(9 == first_pointer->value);
+      REQUIRE(1 == last_pointer->value);
+    }
+
+    SECTION("the list has size 2 and is not empty") {
+      REQUIRE(2 == get_size(list));
+      REQUIRE(false == list.empty());
+    }
+  }
+
+
+  list.pop_back();
+  {
+    // front to back list content should be: 9
+    auto first_pointer = get_first_pointer(list);
+    auto last_pointer  = get_last_pointer(list); 
+   
+    SECTION("first_ and last_ should not be nullptrs anymore") {
+      REQUIRE(nullptr != first_pointer);
+      REQUIRE(nullptr != last_pointer);
+    }
+
+    SECTION("the links between nodes are set correctly") {
+      REQUIRE(nullptr == first_pointer->prev);
+      REQUIRE(nullptr == first_pointer->next);
+      REQUIRE(first_pointer == last_pointer);
+    }
+    
+    SECTION("the only element in the list should be 9") {
+      REQUIRE(9 == first_pointer->value);
+    }
+
+    SECTION("the list has size 1 and is not empty") {
+      REQUIRE(1 == list.size() );
+      REQUIRE(false == list.empty());
+    }
+  }
+
+  list.pop_back();
+  {
+    // list should be empty
+    auto first_pointer = get_first_pointer(list);
+    auto last_pointer  = get_last_pointer(list); 
+   
+    SECTION("first_ and last_ should now be nullptrs") {
+      REQUIRE(nullptr == first_pointer);
+      REQUIRE(nullptr == last_pointer);
+    }
+
+    SECTION("the list has size 1 and is not empty") {
+      REQUIRE(0 == list.size() );
+      REQUIRE(true == list.empty());
+    }
+  }
+
+  SECTION("pop_back on an empty list should throw an exception") {
+    REQUIRE_THROWS(list.pop_back());
+  }
+
+
+}

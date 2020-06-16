@@ -1,0 +1,41 @@
+TEST_CASE("iterators should not be the same when they do not point to the same node", "[iterator usage]") {
+  List<int> list{};
+
+  list.push_front(9123);
+  SECTION("for a list with one element, iterators retrieved by 'begin' should be equal") {
+    REQUIRE(9123 == list.front());
+    REQUIRE(1 == list.size());
+
+    auto begin_it = list.begin();
+    auto end_it       = list.end();
+    REQUIRE(begin_it != end_it);
+
+    REQUIRE(nullptr == end_it.node);
+
+    REQUIRE(*begin_it == list.front());
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+  }
+
+  list.push_front(1000);
+  SECTION("for a list with two element, iterators retrieved by 'begin' should be equal") {
+    REQUIRE(1000 == list.front());
+    REQUIRE(2 == list.size());
+
+    auto begin_it = list.begin();
+    auto end_it       = list.end();
+    REQUIRE(begin_it != end_it);
+
+    REQUIRE(nullptr == end_it.node);
+
+    REQUIRE(*begin_it == list.front());
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+
+    *begin_it = -999;
+    REQUIRE(-999 == list.front());
+    REQUIRE(*begin_it == list.front());  
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+  }
+}

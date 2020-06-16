@@ -1,0 +1,22 @@
+TEST_CASE("default constructed list should have valid initial values", "[list_construction]") {
+  List<int> list{};
+
+  REQUIRE(0 == get_size(list));
+  REQUIRE(nullptr == get_first_pointer(list));
+  REQUIRE(nullptr == get_last_pointer(list));
+}
+
+TEST_CASE("size for default constructed list should be 0", "[list_construction]") {
+  List<int> list{};
+  
+  REQUIRE(get_size(list) == list.size());
+  REQUIRE(0 == list.size());
+  //size for a non-empty list can only be tested after some insertion method is implemented
+}
+
+TEST_CASE("check whether list is empty for default constructed list", "[list_construction]") {
+  List<int> list{};
+  
+  REQUIRE(true == list.empty());
+  //empty for a non-empty list can only be tested after some insertion method is implemented
+}

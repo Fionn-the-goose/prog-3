@@ -1,0 +1,73 @@
+#include <limits>
+
+struct Point2D{
+  float x = 0.0f;
+  float y = 0.0f;
+};
+
+TEST_CASE("dereferencing an iterator using the arrow iterator should return the pointer of the value type", "[iterator usage]") {
+
+
+
+  List<Point2D> list{};
+
+  SECTION("an empty list can only have an iterator pointing to a nullptr, so dereferencing throws") {
+    REQUIRE(true == list.empty());
+
+    auto begin_it = list.begin();
+    REQUIRE_THROWS(begin_it->x);
+
+  }
+
+  list.push_front({10.0f, 100.0f});
+
+  SECTION("pushed element should be readable and writeable via dereferencing the iterator") {
+    REQUIRE(10.0f  == list.front().x);
+    REQUIRE(100.0f == list.front().y);
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+
+    auto begin_it = list.begin();
+    REQUIRE(begin_it->x == Approx(list.front().x) );
+    REQUIRE(begin_it->y == Approx(list.front().y) );
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+
+    begin_it->x = -9.9f;
+    begin_it->y = -27.2f;
+
+    begin_it = list.begin();
+    REQUIRE(begin_it->x == Approx(list.front().x) );
+    REQUIRE(begin_it->y == Approx(list.front().y) );  
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+  }
+
+  list.push_front({std::numeric_limits<float>::max(), 
+                   std::numeric_limits<float>::min()});
+  SECTION("pushed element should be readable and writeable and should not change size of list") {
+
+    float const float_max = std::numeric_limits<float>::max();
+    float const float_min = std::numeric_limits<float>::min();
+    REQUIRE(float_max == list.front().x);
+    REQUIRE(float_min == list.front().y);
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+
+    auto begin_it = list.begin();
+    REQUIRE(begin_it->x == list.front().x );
+    REQUIRE(begin_it->y == list.front().y );
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+
+    begin_it->x = 0.0f;
+
+    begin_it = list.begin();
+    REQUIRE(0.0f      == list.front().x );
+    REQUIRE(float_min == list.front().y );  
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+  }
+
+  
+}

@@ -1,0 +1,38 @@
+TEST_CASE("end returns always an iterator containing a nullptr", "[getting_iterators]") {
+  List<int> list{};
+
+  SECTION("an empty list returns an iterator which holds a nullptr") {
+    REQUIRE(true == list.empty());
+    REQUIRE(nullptr == list.end().node);
+  }
+
+  list.push_front(9123);
+  SECTION("lists with one element return an iterator containing a nullptr") {
+    REQUIRE(false == list.empty());
+    REQUIRE(1 == list.size());
+
+    auto end_iterator = list.end();
+
+    REQUIRE(9123 == list.front());
+    REQUIRE(9123 == list.back());
+    REQUIRE(nullptr == end_iterator.node);
+    REQUIRE(1 == list.size());
+  }
+
+  list.push_front(1000);
+  SECTION("lists with more than one element return an iterator containing a nullptr") {
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+    
+    auto end_iterator = list.end();
+
+    REQUIRE(1000 == list.front());
+    REQUIRE(9123 == list.back());
+    REQUIRE(nullptr == end_iterator.node);
+
+    REQUIRE(false == list.empty());
+    REQUIRE(2 == list.size());
+  }
+
+
+}

@@ -1,0 +1,81 @@
+TEST_CASE("iterators should be the same when they point to the same node", "[iterator usage]") {
+  List<int> list{};
+
+  SECTION("the iterators for an empty list should all be the same, because they are all nullptr") {
+    REQUIRE(true == list.empty());
+
+    auto const begin_it = list.begin();
+    auto const end_it = list.end();
+
+    REQUIRE(nullptr == begin_it.node);
+    REQUIRE(nullptr == end_it.node);
+
+    // the two begin iterators are actually all different objects, because their addresses are the same
+    REQUIRE(&begin_it != &end_it); 
+    
+    REQUIRE(begin_it == begin_it);
+    REQUIRE(begin_it == begin_it);
+    REQUIRE(end_it == end_it);
+    REQUIRE(begin_it == end_it);
+  }
+
+  list.push_front(9123);
+  SECTION("for a list with one element, iterators retrieved by 'begin' should be equal") {
+    REQUIRE(9123 == list.front());
+    REQUIRE(1 == list.size());
+
+    auto begin_it_one = list.begin();
+    auto begin_it_two = list.begin();
+    auto end_it       = list.end();
+    REQUIRE(begin_it_one == begin_it_two);
+    REQUIRE(begin_it_one == begin_it_one);
+
+    // the two begin iterators are actually all different objects, because their addresses are the same
+    REQUIRE(&begin_it_one != &begin_it_two); 
+    REQUIRE(&end_it       != &begin_it_one); 
+    REQUIRE(&end_it       != &begin_it_two); 
+
+    REQUIRE(nullptr == end_it.node);
+
+    REQUIRE(*begin_it_one == list.front());
+    REQUIRE(*begin_it_two == list.front());   
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+    *begin_it_one = 9;
+    REQUIRE(9 == list.front());
+    REQUIRE(*begin_it_one == list.front()); 
+    REQUIRE(*begin_it_two == list.front());      
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+  }
+
+  list.push_front(1000);
+  SECTION("for a list with two element, iterators retrieved by 'begin' should be equal") {
+    REQUIRE(1000 == list.front());
+    REQUIRE(2 == list.size());
+
+    auto begin_it_one = list.begin();
+    auto begin_it_two = list.begin();
+    auto end_it       = list.end();
+    REQUIRE(begin_it_one == begin_it_two);
+    REQUIRE(begin_it_one == begin_it_one);
+
+    // the two begin iterators are actually all different objects, because their addresses are the same
+    REQUIRE(&begin_it_one != &begin_it_two); 
+    REQUIRE(&end_it       != &begin_it_one); 
+    REQUIRE(&end_it       != &begin_it_two); 
+
+    REQUIRE(nullptr == end_it.node);
+
+    REQUIRE(*begin_it_one == list.front());
+    REQUIRE(*begin_it_two == list.front());   
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+    *begin_it_one = -999;
+    REQUIRE(-999 == list.front());
+    REQUIRE(*begin_it_one == list.front()); 
+    REQUIRE(*begin_it_two == list.front());      
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+  }
+}

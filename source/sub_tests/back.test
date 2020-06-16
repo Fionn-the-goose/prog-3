@@ -1,0 +1,34 @@
+TEST_CASE("get a reference to the last value type", "[list_usage]") {
+  List<int> list{};
+
+  SECTION("an empty list can not return a reference to the first object") {
+    REQUIRE_THROWS(list.back());
+    REQUIRE(true == list.empty());
+  }
+
+  list.push_back(9123);
+  SECTION("pushed element should be readable and writeable and should not change size of list") {
+    REQUIRE(9123 == list.back());
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+    
+    list.back() = 9;
+    REQUIRE(9 == list.back());
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+  }
+
+  list.push_back(1000);
+  SECTION("pushed element should be readable and writeable and should not change size of list") {
+    REQUIRE(1000 == list.back());
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+    
+    list.back() = 1;
+    REQUIRE(false == list.empty());
+    REQUIRE(1 == list.back());
+    REQUIRE(2 == list.size());
+  }
+
+
+}

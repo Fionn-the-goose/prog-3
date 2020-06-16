@@ -1,0 +1,104 @@
+TEST_CASE("the increment operators move the iterators in the list forward", "[iterator usage]") {
+  List<int> list{};
+
+  SECTION("an empty list can only have an iterator pointing to a nullptr, so iterating throws") {
+    REQUIRE(true == list.empty());
+
+    auto begin_it = list.begin();
+    REQUIRE(nullptr == begin_it.node);
+    REQUIRE_THROWS(++begin_it);
+    REQUIRE(nullptr == begin_it.node);
+    REQUIRE_THROWS(begin_it++);
+    REQUIRE(nullptr == begin_it.node);
+
+    auto end_it = list.begin();
+    REQUIRE(nullptr == begin_it.node);
+    REQUIRE_THROWS(++end_it);
+    REQUIRE(nullptr == end_it.node);
+    REQUIRE_THROWS(end_it++);
+    REQUIRE(nullptr == end_it.node);
+  }
+
+  list.push_back(9);
+  SECTION("in a list with one element, we reach the end_iterator after iterating forward from the begin iterator, values of the items do not change") {
+    REQUIRE(false == list.empty());
+
+    auto begin_it_1 = list.begin();
+    auto end_it_1 = list.end();
+
+    REQUIRE(9 == begin_it_1.node->value);
+    REQUIRE(end_it_1 != begin_it_1);
+    auto old_value_of_iterator = begin_it_1++;
+    REQUIRE(9 == old_value_of_iterator.node->value);
+
+    REQUIRE(end_it_1 == begin_it_1);
+    REQUIRE(end_it_1 != old_value_of_iterator);
+
+    auto begin_it_2 = list.begin();   
+    REQUIRE(9 == begin_it_2.node->value);
+    REQUIRE(end_it_1 == ++begin_it_2);
+
+    auto begin_it_3 = list.begin();   
+    REQUIRE(9 == begin_it_3.node->value);
+
+    //after iterating once, we are with both iterators at the position of the end iterator
+    REQUIRE_THROWS(++begin_it_1);
+    REQUIRE_THROWS(begin_it_2++);
+
+    REQUIRE_THROWS(++end_it_1);
+
+    auto end_it_2 = list.end();
+    REQUIRE_THROWS(end_it_2++);
+    REQUIRE(false == list.empty());
+  }
+
+  list.push_back(-27);
+  SECTION("in a list with two element, we reach the end_iterator after iterating forward from the begin iterator, values of the items do not change") {
+    REQUIRE(false == list.empty());
+
+    auto begin_it_1 = list.begin();
+    auto end_it_1 = list.end();
+
+    REQUIRE(9 == begin_it_1.node->value);
+    REQUIRE(end_it_1 != begin_it_1);
+    auto old_value_of_iterator_1 = begin_it_1++;
+    REQUIRE(9 == old_value_of_iterator_1.node->value);
+    auto new_value_of_iterator_1 = begin_it_1;
+    REQUIRE(-27 == new_value_of_iterator_1.node->value);
+
+    REQUIRE(end_it_1 != new_value_of_iterator_1);
+    REQUIRE(end_it_1 != old_value_of_iterator_1);
+
+    auto begin_it_2 = list.begin();   
+    REQUIRE(9 == begin_it_2.node->value);
+    REQUIRE(end_it_1 != ++begin_it_2);
+    REQUIRE(begin_it_2 == new_value_of_iterator_1);
+
+    auto begin_it_3 = list.begin();   
+    REQUIRE(9 == begin_it_3.node->value);
+
+    //after iterating once, we are at the second node position with both iterators
+    REQUIRE(  -27       == begin_it_1.node->value);
+    REQUIRE(  -27       == begin_it_2.node->value);
+    REQUIRE( begin_it_1 ==  begin_it_2);
+    REQUIRE(&begin_it_1 != &begin_it_2);
+
+    ++begin_it_1;
+    begin_it_2++;
+    //after iterating a second time, we reach the end iterator, i.e. the element past the end of the list
+    REQUIRE( begin_it_1  == end_it_1);
+    REQUIRE( begin_it_2  == end_it_1);
+    REQUIRE(&begin_it_1 != &end_it_1);
+    REQUIRE(&begin_it_2 != &end_it_1);
+    REQUIRE(&begin_it_1 != &begin_it_2);
+
+    REQUIRE_THROWS(++begin_it_1);
+    REQUIRE_THROWS(begin_it_2++);
+    
+    REQUIRE_THROWS(++end_it_1);
+
+    auto end_it_2 = list.end();
+    REQUIRE_THROWS(end_it_2++);
+    REQUIRE(false == list.empty());
+  }
+}

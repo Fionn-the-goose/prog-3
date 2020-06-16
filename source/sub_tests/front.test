@@ -1,0 +1,32 @@
+TEST_CASE("get a reference to the first value type", "[list_usage]") {
+  List<int> list{};
+
+  SECTION("an empty list can not return a reference to the first object") {
+    REQUIRE_THROWS(list.front());
+    REQUIRE(true == list.empty());
+  }
+
+  list.push_front(9123);
+  SECTION("pushed element should be readable and writeable and should not change size of list") {
+    REQUIRE(9123 == list.front());
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+
+    list.front() = 9;
+    REQUIRE(9 == list.front());
+    REQUIRE(1 == list.size());
+    REQUIRE(false == list.empty());
+  }
+
+  list.push_front(1000);
+  SECTION("pushed element should be readable and writeable and should not change size of list") {
+    REQUIRE(1000 == list.front());
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+
+    list.front() = 1;
+    REQUIRE(1 == list.front());
+    REQUIRE(2 == list.size());
+    REQUIRE(false == list.empty());
+  }
+}

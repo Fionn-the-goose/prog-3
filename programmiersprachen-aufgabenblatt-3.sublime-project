@@ -1,0 +1,22 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd":
+			[      
+				"make",
+				"-j4",
+                                "./tests"
+			],
+			"file_regex": "^(..[^:]*):(.*)$",
+			"name": "programmiersprachen_aufgabenblatt_3",
+			"working_dir": "${project_path}/build"
+		}
+	],
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	]
+}
