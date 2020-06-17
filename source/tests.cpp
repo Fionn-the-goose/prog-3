@@ -26,13 +26,15 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 #include "sub_tests/pop_front.test"
 #include "sub_tests/pop_back.test"
 
-//test case definitions for clear method of list
-#include "sub_tests/clear.test"
-
 //test cases for element access of list
 #include "sub_tests/front.test"
 #include "sub_tests/back.test"
 
+//test case for clear method of list
+#include "sub_tests/clear.test"
+
+//test case for Deep-Copy constructor
+#include "sub_tests/copy.test"
 /*//test cases for retrieving iterators
 #include "sub_tests/begin.test"
 #include "sub_tests/end.test"

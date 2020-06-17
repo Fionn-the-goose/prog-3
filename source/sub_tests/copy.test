@@ -1,0 +1,30 @@
+TEST_CASE("Copy constructor Aufruf", "[list_copy]"){
+	List<int> list{};
+	List<int> list_empty{};
+
+	list.push_back( 9);
+	list.push_back( 1);
+	list.push_back(-7);
+
+	List<int> list_copy{list};
+	List<int> list_empty_copy{list_empty};
+	auto list_copy_first{list_copy.front()};
+	auto list_copy_last{list_copy.back()};
+
+	list.pop_back();		//test to check if copy list isn't changed
+	list.pop_back();
+
+	auto list_copy_first2{list_copy.front()};
+	auto list_copy_last2{list_copy.back()};
+	{
+		SECTION("list with elements"){
+			REQUIRE(list_copy_first == 9);
+			REQUIRE(list_copy_last == -7);
+			REQUIRE(list_copy_first2 == 9);
+			REQUIRE(list_copy_last2 == -7);
+		}
+		SECTION("list without elements"){
+			REQUIRE(list_empty_copy.empty());
+		}
+	}
+}

@@ -126,14 +126,23 @@ class List {
     using const_reference = T const&;
     using iterator        = ListIterator<T>;
 
-    // not fully implemented yet
     List() :
         size_{0},
         first_{ nullptr },
         last_{ nullptr } {};
 
     // test and implement:
-    //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
+    List(List<T> const& list):
+        size_{ 0 },
+        first_{ nullptr },
+        last_{ nullptr } 
+        {
+        ListNode<T> *tmp = list.last_;
+            while (nullptr != tmp) {
+                push_front(tmp->value);
+                tmp = tmp->prev;
+            }
+        };
 
     // test and implement:
     // TODO: Move-Konstruktor (Aufgabe 3.9)
