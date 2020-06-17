@@ -155,9 +155,16 @@ class List {
     }
 
     /* ... */
-    // test and implement:
-    //TODO: (unifying) Assignment operator (Aufgabe 3.6)
+    //(unifying) Assignment operator
+    void swap(List<T> list) {
+        std::swap(first_, list.first_);
+        std::swap(last_, list.last_);
+    }
 
+    List& operator= (List<T> list) {
+        swap(list);
+        return *this;
+    }
     /* ... */
     // test and implement:
 
@@ -204,8 +211,19 @@ class List {
     //TODO: member function insert (Aufgabe 3.14)
 
     /* ... */
-
-    //TODO: member function reverse (Aufgabe 3.7 - Teil 1)
+    /*void reverse() {
+        if (empty() || size_ == 1) {
+            return;
+        }
+        else {
+            ListNode<T>* tmp = first_;
+            std::swap(first_, last_);
+            while(tmp != nullptr){
+                std::swap(tmp->next, tmp->prev);
+                tmp = tmp->prev
+            }
+        }
+    }*/
 
 
     /*  */

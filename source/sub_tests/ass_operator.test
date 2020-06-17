@@ -1,0 +1,18 @@
+TEST_CASE("unifying assingment operator", "[list_assingment_operator]"){
+	List<int> list{};
+	list.push_back( 9);
+	list.push_back( 1);
+	list.push_back(-7);
+	List<int> list2 = list;
+	
+	auto front_list = list.front();
+	auto back_list = list.back();
+	auto front_list2 = list2.front();
+	auto back_list2 = list2.back();
+	{
+		SECTION("Elemente vergleichen von 2 listen die gleich sein sollten"){
+			REQUIRE(front_list == front_list2);
+			REQUIRE(back_list == back_list2);
+		}
+	}
+}
