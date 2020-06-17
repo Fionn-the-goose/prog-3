@@ -1,0 +1,19 @@
+TEST_CASE("clear a list", "[list_clear]") {
+  List<int> list{};
+  List<int> list2{};
+
+  list.push_back( 9);
+  list.push_back( 1);
+  list.push_back(-7);
+
+  list.clear();
+  list2.clear();
+  {
+	SECTION("list with elements"){
+		REQUIRE(list.empty());
+	}
+	SECTION("list without elements"){
+		REQUIRE(list2.empty());
+	}
+  }
+}

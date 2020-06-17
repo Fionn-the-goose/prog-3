@@ -165,7 +165,8 @@ class List {
 
     /* ... */
     ~List() {
-    } //can not really be tested
+        clear();
+    }
 
     /* ... */
     ListIterator<T> begin() {
@@ -182,7 +183,11 @@ class List {
     }
 
     /* ... */ 
-    // test and implement:
+    void clear() {
+        while(!empty()){
+            pop_back();
+        }
+    }
     /* ... */
     //TODO: member function insert (Aufgabe 3.13)
 
