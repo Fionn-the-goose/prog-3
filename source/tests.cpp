@@ -45,11 +45,11 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 //test case for == and != Operatoren
 #include "sub_tests/equal_unequal.test"
 
-/*//test cases for retrieving iterators
+//test cases for retrieving iterators
 #include "sub_tests/begin.test"
 #include "sub_tests/end.test"
 
-//iterator tests
+/*//iterator tests
 #include "sub_tests/iterators/operator_star.test"
 #include "sub_tests/iterators/operator_arrow.test"
 #include "sub_tests/iterators/operator_equals.test"
