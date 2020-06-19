@@ -38,6 +38,13 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 
 //test case for unifyning assignment operator
 #include "sub_tests/ass_operator.test"
+
+//test case for reverse methode
+#include "sub_tests/reverse.test"
+
+//test case for == and != Operatoren
+#include "sub_tests/equal_unequal.test"
+
 /*//test cases for retrieving iterators
 #include "sub_tests/begin.test"
 #include "sub_tests/end.test"

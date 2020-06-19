@@ -1,0 +1,29 @@
+TEST_CASE("reverse methode und reverse-freie Methode","[list_reverse]"){
+	List<int> list{};
+	list.push_back( 9);
+	list.push_back( 1);
+	list.push_back(-7);
+
+	List<int> list_free;
+	list_free.push_back( 9);
+	list_free.push_back( 1);
+	list_free.push_back(-7);
+
+	list.reverse();
+	reverse(list_free);
+
+	auto list_first = list.front();
+	auto list_last = list.back();
+	auto list_free_first = list_free.front();
+	auto list_free_last = list_free.back();
+	{
+		SECTION("The normal reverse methode"){
+			REQUIRE(list_first == -7);
+			REQUIRE(list_last == 9);
+		}
+		SECTION("The free reverse methode"){
+			REQUIRE(list_free_first == -7);
+			REQUIRE(list_free_last == 9);
+		}
+	}
+}

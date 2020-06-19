@@ -165,18 +165,38 @@ class List {
         swap(list);
         return *this;
     }
+
     /* ... */
     // test and implement:
-
-    bool operator==(List const& rhs) const
-    {
-      //TODO: operator== (Aufgabe 3.8)
+    bool operator==(List const& rhs) const{
+        if (empty() && rhs.empty()) {
+            return true;
+        }
+        else if (size() != rhs.size()) {
+            return false;
+        }
+        else {
+            auto* tmp_Node1 = first_;
+            auto* tmp_Node2 = rhs.first_;
+            while(nullptr != tmp_Node1){
+                if (tmp_Node1->value != tmp_Node2->value) {
+                    return false;
+                }
+                tmp_Node1 = tmp_Node1->next;
+                tmp_Node2 = tmp_Node2->next;
+            }
+            return true;
+        }
     }
 
     bool operator!=(List const& rhs) const
     {
-      //TODO: operator!= (Aufgabe 3.8)
-      // make use of operator==
+        if (*this == rhs){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     /* ... */
@@ -211,7 +231,7 @@ class List {
     //TODO: member function insert (Aufgabe 3.14)
 
     /* ... */
-    /*void reverse() {
+    void reverse() {
         if (empty() || size_ == 1) {
             return;
         }
@@ -220,10 +240,10 @@ class List {
             std::swap(first_, last_);
             while(tmp != nullptr){
                 std::swap(tmp->next, tmp->prev);
-                tmp = tmp->prev
+                tmp = tmp->prev;
             }
         }
-    }*/
+    }
 
 
     /*  */
@@ -351,8 +371,10 @@ class List {
 };
 
 /* ... */
-//TODO: Freie Funktion reverse 
-//(Aufgabe 3.7 - Teil 2, benutzt Member-Funktion reverse)
+template<typename T>
+void reverse(List<T> &list) {
+    list.reverse();
+}
 
 /* ... */
 //TODO: Freie Funktion operator+ (3.10 - Teil 2)
