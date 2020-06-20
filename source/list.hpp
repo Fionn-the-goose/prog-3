@@ -35,20 +35,15 @@ struct ListIterator {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    //TODO: remaining implementation of derefenciation of 
-    //      iterator using operator* (Aufgabe 3.12 - Teil 1)
-
-  } //call *it
+    return node->value;
+  }
 
   /* DESCRIPTION  operator->() */
   T* operator->() const {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    //TODO: remaining implementation of derefenciation of 
-    //      iterator using operator-> (Aufgabe 3.12 - Teil 2)
+    return &node->value;
   }  //call it->method() or it->member
 
 
@@ -57,39 +52,33 @@ struct ListIterator {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    //TODO: Implement Postincrement-Operation for Iterator
-    //      (Aufgabe 3.12 - Teil 3)
-    
+    node = node->next;
+    return *this;
   }
 
   /* POSTINCREMENT (signature distinguishes the iterators), 
                     call:  it++, advances one element forward*/
   ListIterator<T> operator++(int) {
     if(nullptr == node) {
-      throw "Iterator does not point to valid node";
+        throw "Iterator does not point to valid node";
     }
-
-    //TODO: Implement Postincrement-Operation for Iterator
-    //      (Aufgabe 3.12 - Teil 4)
-
+    else {
+        auto tmp = *this;
+        ++(*this);
+        return tmp;
+    }
+    
   }
 
 
   /* ... */
   bool operator==(ListIterator<T> const& x) const {
-    //TODO: Implement Equality-Operation for Iterator
-    //      (Aufgabe 3.12 - Teil 5)
-    // Iterators should be the same if they refer to the same node
-    return false;
+      return node == x.node;
   } // call it: == it
 
   /* ... */
   bool operator!=(ListIterator<T> const& x) const {
-    //TODO: Implement Inequality-Operation for Iterator  
-    //      (Aufgabe 3.12 - Teil 6)
-    // Reuse operator==
-    return false;
+      return !(node == x.node);
   } // call it: != it
 
   /* Advances Iterator */
@@ -206,14 +195,16 @@ class List {
 
     /* ... */
     ListIterator<T> begin() {
-        auto begin = first_;
-        return { begin };
+        ListIterator<T> begin;
+        begin.node = first_;
+        return begin;
     }
 
     /* ... */
     ListIterator<T> end() {
-        auto end = nullptr;
-        return { end };
+        ListIterator<T> end;
+        end.node = nullptr;
+        return end;
     }
 
     /* ... */ 
