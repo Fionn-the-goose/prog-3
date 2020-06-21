@@ -66,22 +66,19 @@ struct ListIterator {
         auto tmp = *this;
         ++(*this);
         return tmp;
-    }
-    
+    }  
   }
-
 
   /* ... */
   bool operator==(ListIterator<T> const& x) const {
       return node == x.node;
-  } // call it: == it
+  }
 
   /* ... */
   bool operator!=(ListIterator<T> const& x) const {
       return !(node == x.node);
-  } // call it: != it
+  }
 
-  /* Advances Iterator */
   ListIterator<T> next() const {
     if (nullptr != node) {
       return ListIterator{node->next};
@@ -133,9 +130,15 @@ class List {
             }
         };
 
-    // test and implement:
-    // TODO: Move-Konstruktor (Aufgabe 3.9)
-
+    /*...*/
+    List(List<T>&& move_list) :
+        size_(move_list.size_),
+        first_(move_list.first_),
+        last_(move_list.last_) {
+        move_list.size_ = 0;
+        move_list.first_ = nullptr;
+        move_list.last_ = nullptr;
+    }
     //TODO: Initializer-List Konstruktor (3.10 - Teil 1)
     /* ... */
     // test and implement:
@@ -144,7 +147,6 @@ class List {
     }
 
     /* ... */
-    //(unifying) Assignment operator
     void swap(List<T> list) {
         std::swap(first_, list.first_);
         std::swap(last_, list.last_);
@@ -156,7 +158,6 @@ class List {
     }
 
     /* ... */
-    // test and implement:
     bool operator==(List const& rhs) const{
         if (empty() && rhs.empty()) {
             return true;
@@ -213,11 +214,28 @@ class List {
             pop_back();
         }
     }
-    /* ... */
-    //TODO: member function insert (Aufgabe 3.13)
 
     /* ... */
-    //TODO: member function insert (Aufgabe 3.14)
+    ListIterator<T> insert(ListIterator<T> const& position, T const& element) {
+        if (position == begin()) {
+            push_front(element);
+            return begin();
+        }
+        else if (position == end()) {
+            push_back(element);
+            return end();
+        }
+        else {
+            ListNode<T>* insert_Node = new ListNode<T>{ element, position.node->prev, position.node };
+            position.node->prev->next = insert_Node;
+            position.node->prev = insert_Node;
+            ++size_;
+            return ListIterator<T>{insert_Node};
+        }
+    }
+
+    /* ... */
+    //TODO: member function erase (Aufgabe 3.14)
 
     /* ... */
     void reverse() {

@@ -1,0 +1,14 @@
+TEST_CASE("move konstruktor","[list_Movekonstruktor]"){
+	List<int> list{};
+	list.push_back( 9);
+	list.push_back( 1);
+	list.push_back(-7);
+	
+	List<int> list2 = std::move(list);
+	auto last_value = list2.back();
+	auto first_value = list2.front()
+
+	REQUIRE(list.size() = 0);
+	REQUIRE(list2.size() = 3);
+	REQUIRE(last_value = -7);
+	REQUIRE(first_value = 9);
