@@ -68,12 +68,12 @@ struct ListIterator {
     }  
   }
 
-  /* ... */
+  /* the equal operator checks if an iterater equal to another is,  */
   bool operator==(ListIterator<T> const& x) const {
       return node == x.node;
   }
 
-  /* ... */
+  /* the opposite of the == operator, it checks if there unequal */
   bool operator!=(ListIterator<T> const& x) const {
       return !(node == x.node);
   }
@@ -129,7 +129,8 @@ class List {
             }
         };
 
-    /*...*/
+    /* With the move-konstruktor we transfer all elements from one list to another, the first list 
+    is now empty*/
     List(List<T>&& move_list) :
         size_(move_list.size_),
         first_(move_list.first_),
@@ -145,7 +146,7 @@ class List {
       //not implemented yet
     }
 
-    /* ... */
+    /* the swap methode  */
     void swap(List<T> list) {
         std::swap(first_, list.first_);
         std::swap(last_, list.last_);
@@ -156,7 +157,8 @@ class List {
         return *this;
     }
 
-    /* ... */
+    /* this operator checks if one list is identical with another,
+    we need to check every single node for this*/
     bool operator==(List const& rhs) const{
         if (empty() && rhs.empty()) {
             return true;
@@ -178,6 +180,7 @@ class List {
         }
     }
 
+    /*checks if one list is unequal than another*/
     bool operator!=(List const& rhs) const
     {
         if (*this == rhs){
@@ -188,33 +191,33 @@ class List {
         }
     }
 
-    /* ... */
+    /* Destrucktor terminate a list by using the clear method */
     ~List() {
         clear();
     }
 
-    /* ... */
+    /* the Listiterar gives back the first Iterator node of the list */
     ListIterator<T> begin() {
         ListIterator<T> begin;
         begin.node = first_;
         return begin;
     }
 
-    /* ... */
+    /* the Listiterar gives back the last Iterator node of the list */
     ListIterator<T> end() {
         ListIterator<T> end;
         end.node = nullptr;
         return end;
     }
 
-    /* ... */ 
+    /*removes every element of the list by poping them one by one*/
     void clear() {
         while(!empty()){
             pop_back();
         }
     }
 
-    /* ... */
+    /* the insert method can insert one node at one axact position, pointed by List iterator.*/
     ListIterator<T> insert(ListIterator<T> const& position, T const& element) {
         if (position == begin()) {
             push_front(element);
@@ -233,7 +236,8 @@ class List {
         }
     }
 
-    /* ... */
+    /* the erase methode works similar to the insert funktion, but instead of insearting it removes
+    the node at the given position */
     ListIterator<T> erase(ListIterator<T> const& position) {
         if (empty()){
             throw "List is empty, better Luck next time";
@@ -259,7 +263,8 @@ class List {
         }
     }
 
-    /* ... */
+    /* the reverse methode change the Order of the elements of the list, by swaping the last with node with the first by
+    using the swap methode. so we have the reverse version of the methode*/
     void reverse() {
         if (empty() || size_ == 1) {
             return;
@@ -275,7 +280,7 @@ class List {
     }
 
 
-    /*  */
+    /* the push front methode create a new node at the start of the list */
     void push_front(T const& element) {
         ListNode<T>* node = new ListNode<T>;
         node->value = element;
@@ -298,7 +303,7 @@ class List {
         size_++;
     }
 
-    /* ... */
+    /* same as the push front methode, but instead of at the start it creates a new node at the end */
     void push_back(T const& element) {
         ListNode<T>* node = new ListNode<T>;
         node->value = element;
@@ -321,43 +326,43 @@ class List {
         size_++;
     }
 
-    /* ... */
+    /* the pop methode remove the first element of the list */
     void pop_front() {
       if(empty()) {
           throw "List is empty";
       }
       else if(first_ == last_) {
-          delete first_;
+          delete first_;                //delete is used so theres no garbage left in the storrage
           first_ = nullptr;
           last_ = nullptr;
       }
       else {
           first_ = first_->next;
-          delete first_->prev;
+          delete first_->prev;          //delete is used so theres no garbage left in the storrage
           first_->prev = nullptr;
       }
-      size_--;
+      size_--;                      
     }
 
-    /* ... */
+    /* removes the last element of the list */
     void pop_back() {
       if(empty()) {
         throw "List is empty";
       }
       else if (first_ == last_) {
-          delete last_;
+          delete last_;             //delete is used so theres no garbage left in the storrage
           last_ = nullptr;
           first_ = nullptr;
       }
       else {
           last_ = last_->prev;
-          delete last_->next;
+          delete last_->next;       //delete is used so theres no garbage left in the storrage
           last_->next = nullptr;
       }
       size_--;
     }
 
-    /* ... */
+    /* gives back the value of the first node, important for test cases */
     T& front() {
       if(empty()) {
         throw "List is empty";
@@ -367,7 +372,7 @@ class List {
       }
     }
 
-    /* ... */
+    /* gives back the value of the last node, important for test cases */
     T& back() {
       if(empty()) {
         throw "List is empty";
@@ -377,7 +382,7 @@ class List {
       }
     }
 
-    /* ... */
+    /* checks if the list is empty */
     bool empty() const {
         if (first_ == nullptr && last_ == nullptr) {
             return true;
@@ -386,7 +391,7 @@ class List {
     };
 
 
-    /* ... */
+    /* gives back how many elements are inside of the list */
     std::size_t size() const{
         return size_;
   };
@@ -399,7 +404,7 @@ class List {
     ListNode<T>* last_;
 };
 
-/* ... */
+/* free funktion which uses the same tamplate as the list. it basicly calls the reverse methode for the input list.*/
 template<typename T>
 void reverse(List<T> &list) {
     list.reverse();
