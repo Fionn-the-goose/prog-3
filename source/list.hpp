@@ -411,7 +411,16 @@ void reverse(List<T> &list) {
 }
 
 /* ... */
-//TODO: Freie Funktion operator+ (3.10 - Teil 2)
-
+template<typename T>
+bool has_same_content(List<T> const& list, std::vector<T> const& vec) {
+    std::vector<T> same_vec{};
+    std::copy(list.begin(), list.end(), std::back_inserter(same_vec));
+    if (vec == same_vec){
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 #endif // # define BUW_LIST_HPP

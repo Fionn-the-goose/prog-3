@@ -60,6 +60,9 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 #include "sub_tests/insert.test"
 #include "sub_tests/erase.test"
 
+//test case for tahs_the_same_content method
+//#include "sub_tests/has_the_same_content.test"
+
 int main(int argc, char *argv[])
 {
   return Catch::Session().run(argc, argv);

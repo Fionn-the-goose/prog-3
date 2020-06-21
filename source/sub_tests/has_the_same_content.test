@@ -1,0 +1,17 @@
+TEST_CASE("überprüfen ob ein vector den gleichen inhalt wie ene liste hat", "[list_has_same_content]"){
+	List<int> list{};
+	list.push_back( 9);
+	list.push_back( 1);
+	list.push_back(-7);
+
+	List<int> list2{};
+	list2.push_back( 5);
+	list2.push_back( 3);
+	list2.push_back( 99);
+
+	std::vector<int> vec;
+	std::copy(list.begin(), list.end(), std::back_inserter(vec));
+
+	REQUIRE(has_same_content(list, vec));
+	REQUIRE(has_same_content(list2, vec) == false);
+}
