@@ -1,0 +1,15 @@
+TEST_CASE("the erase-iterator test", "[list_insert]"){
+	List <int> list{};
+
+	list.push_back( 9);
+	list.push_back( 1);
+	list.push_back(-7);
+	list.insert(list.begin(), 5);
+	list.erase(list.begin());
+
+	auto first_ptr = get_first_pointer(list);
+	auto last_ptr = get_last_pointer(list);
+
+	REQUIRE(-7 == last_ptr -> value);
+	REQUIRE(9 == first_ptr -> value);
+}

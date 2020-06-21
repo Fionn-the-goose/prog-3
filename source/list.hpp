@@ -44,8 +44,7 @@ struct ListIterator {
       throw "Iterator does not point to valid node";
     }
     return &node->value;
-  }  //call it->method() or it->member
-
+  }
 
   /* PREINCREMENT, call: ++it, advances one element forward */
   ListIterator<T>& operator++() {
@@ -235,7 +234,30 @@ class List {
     }
 
     /* ... */
-    //TODO: member function erase (Aufgabe 3.14)
+    ListIterator<T> erase(ListIterator<T> const& position) {
+        if (empty()){
+            throw "List is empty, better Luck next time";
+        }
+        else if (position == begin()) {
+            pop_front();
+            return begin();
+        }
+        else if (position == ListIterator<T>{last_}) {
+            pop_back();
+            return end();
+        }
+        else {
+            auto tmp{ position };
+            ++tmp;
+            auto value{ tmp };
+            position.node->prev->next = position.node->next;
+            position.node->next->prev = position.node->prev;
+            assert(nullptr != position.node);
+            delete position.node;
+            --size_;
+            return ListIterator<T>{value};
+        }
+    }
 
     /* ... */
     void reverse() {
